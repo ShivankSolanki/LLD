@@ -1,114 +1,179 @@
 from abc import ABC, abstractmethod
 
 
-# --- Strategy Interface for Walk ---
-class WalkableRobot(ABC):
+# --- Generic Behavior Interface ---
+class Behavior(ABC):
+
     @abstractmethod
-    def walk(self):
+    def execute(self):
         pass
 
 
-# --- Concrete Strategies for Walk ---
-class NormalWalk(WalkableRobot):
-    def walk(self):
+# =========================================================
+# WALK STRATEGIES
+# =========================================================
+
+class NormalWalk(Behavior):
+
+    def execute(self):
         print("Walking normally...")
 
 
-class NoWalk(WalkableRobot):
-    def walk(self):
-        print("Cannot walk.")
+class HeavyWalk(Behavior):
+
+    def execute(self):
+        print("Walking with heavy robotic steps...")
 
 
-# --- Strategy Interface for Talk ---
-class TalkableRobot(ABC):
-    @abstractmethod
-    def talk(self):
-        pass
+class FastWalk(Behavior):
+
+    def execute(self):
+        print("Walking very fast...")
 
 
-# --- Concrete Strategies for Talk ---
-class NormalTalk(TalkableRobot):
-    def talk(self):
-        print("Talking normally...")
+# =========================================================
+# FLY STRATEGIES
+# =========================================================
+
+class JetFly(Behavior):
+
+    def execute(self):
+        print("Flying using jet boosters...")
 
 
-class NoTalk(TalkableRobot):
-    def talk(self):
-        print("Cannot talk.")
+class HoverFly(Behavior):
+
+    def execute(self):
+        print("Hovering smoothly in air...")
 
 
-# --- Strategy Interface for Fly ---
-class FlyableRobot(ABC):
-    @abstractmethod
-    def fly(self):
-        pass
+class RocketFly(Behavior):
+
+    def execute(self):
+        print("Flying with rocket propulsion...")
 
 
-# --- Concrete Strategies for Fly ---
-class NormalFly(FlyableRobot):
-    def fly(self):
-        print("Flying normally...")
+# =========================================================
+# TALK STRATEGIES
+# =========================================================
+
+class FriendlyTalk(Behavior):
+
+    def execute(self):
+        print("Talking in a friendly way...")
 
 
-class NoFly(FlyableRobot):
-    def fly(self):
-        print("Cannot fly.")
+class AIProfessionalTalk(Behavior):
+
+    def execute(self):
+        print("Talking professionally with AI voice...")
 
 
-# --- Robot Base Class ---
+# =========================================================
+# ROBOT BASE CLASS
+# =========================================================
+
 class Robot(ABC):
-    def __init__(self, walk_behavior, talk_behavior, fly_behavior):
-        self.walk_behavior = walk_behavior
-        self.talk_behavior = talk_behavior
-        self.fly_behavior = fly_behavior
 
-    def walk(self):
-        self.walk_behavior.walk()
+    def __init__(self):
+        self.behaviors = {}
 
-    def talk(self):
-        self.talk_behavior.talk()
+    # Dynamically attach behavior
+    def add_behavior(self, name, behavior):
+        self.behaviors[name] = behavior
 
-    def fly(self):
-        self.fly_behavior.fly()
+    # Dynamically run behavior
+    def perform(self, name):
+
+        behavior = self.behaviors.get(name)
+
+        if behavior:
+            behavior.execute()
+
+        else:
+            print(f"This robot does not support '{name}' behavior.")
 
     @abstractmethod
     def projection(self):
         pass
 
 
-# --- Concrete Robot Types ---
+# =========================================================
+# ROBOT TYPES
+# =========================================================
+
 class CompanionRobot(Robot):
+
     def projection(self):
-        print("Displaying friendly companion features...")
+        print("Displaying companion robot UI...")
 
 
 class WorkerRobot(Robot):
+
     def projection(self):
-        print("Displaying worker efficiency stats...")
+        print("Displaying worker robot stats...")
 
 
-# --- Main Function ---
+class MilitaryRobot(Robot):
+
+    def projection(self):
+        print("Displaying military combat systems...")
+
+
+# =========================================================
+# MAIN
+# =========================================================
+
 if __name__ == "__main__":
-    robot1 = CompanionRobot(
-        NormalWalk(),
-        NormalTalk(),
-        NoFly()
-    )
 
-    robot1.walk()
-    robot1.talk()
-    robot1.fly()
+    # ---------------------------------
+    # Companion Robot
+    # ---------------------------------
+
+    robot1 = CompanionRobot()
+
+    robot1.add_behavior("walk", NormalWalk())
+    robot1.add_behavior("talk", FriendlyTalk())
+
+    robot1.perform("walk")
+    robot1.perform("talk")
+    robot1.perform("fly")   # not supported
+
     robot1.projection()
 
-    print("--------------------")
+    print("\n-------------------------\n")
 
-    robot2 = WorkerRobot(
-        NoWalk(),
-        NoTalk(),
-        NormalFly()
-    )
 
-    robot2.walk()
-    robot2.talk()
-    robot2.fly()
+    # ---------------------------------
+    # Worker Robot
+    # ---------------------------------
+
+    robot2 = WorkerRobot()
+
+    robot2.add_behavior("walk", HeavyWalk())
+    robot2.add_behavior("talk", AIProfessionalTalk())
+    robot2.add_behavior("fly", HoverFly())
+
+    robot2.perform("walk")
+    robot2.perform("talk")
+    robot2.perform("fly")
+
     robot2.projection()
+
+    print("\n-------------------------\n")
+
+
+    # ---------------------------------
+    # Military Robot
+    # ---------------------------------
+
+    robot3 = MilitaryRobot()
+
+    robot3.add_behavior("walk", FastWalk())
+    robot3.add_behavior("fly", RocketFly())
+
+    robot3.perform("walk")
+    robot3.perform("fly")
+    robot3.perform("talk")  # not supported
+
+    robot3.projection()
