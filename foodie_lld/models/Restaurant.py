@@ -1,17 +1,16 @@
 # models/Restaurant.py
-
 from models.MenuItem import MenuItem
 
 class Restaurant:
 
-    next_restaurant_id = 0
+    _restaurant_id = 0
 
     def __init__(self, name, location):
         self.name = name
         self.location = location
 
-        Restaurant.next_restaurant_id += 1
-        self.restaurant_id = Restaurant.next_restaurant_id
+        Restaurant._restaurant_id += 1
+        self.restaurant_id = Restaurant._restaurant_id
 
         self.menu = []
 
