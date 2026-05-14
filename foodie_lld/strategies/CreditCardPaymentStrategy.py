@@ -1,4 +1,4 @@
-from strategies.PaymentStrategy import PaymentStrategy
+from .PaymentStrategy import PaymentStrategy
 
 
 class CreditCardPaymentStrategy(PaymentStrategy):

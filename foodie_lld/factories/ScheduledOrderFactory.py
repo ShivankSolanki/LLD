@@ -1,4 +1,4 @@
-from factories.OrderFactory import OrderFactory
+from .OrderFactory import OrderFactory
 
 from models.DeliveryOrder import DeliveryOrder
 from models.PickupOrder import PickupOrder

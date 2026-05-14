@@ -1,4 +1,4 @@
-from models.Order import Order
+from .Order import Order
 
 
 class DeliveryOrder(Order):

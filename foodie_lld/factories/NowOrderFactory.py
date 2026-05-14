@@ -1,4 +1,4 @@
-from factories import OrderFactory
+from .OrderFactory import OrderFactory
 from models import DeliveryOrder, PickupOrder
 
 class NowOrderFactory(OrderFactory):

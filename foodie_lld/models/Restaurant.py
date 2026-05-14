@@ -1,5 +1,5 @@
 # models/Restaurant.py
-from models.MenuItem import MenuItem
+from .MenuItem import MenuItem
 
 class Restaurant:
 

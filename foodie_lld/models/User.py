@@ -1,4 +1,4 @@
-from models.Cart import Cart
+from .Cart import Cart
 
 class User:
 
